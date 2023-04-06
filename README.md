@@ -20,8 +20,8 @@ chat with the translation.
 ![System diagram](diagram.png "system diagram")
 
 ## Prerequisites
-* A cluster with Knative installed
-* CamelK https://camel.apache.org/camel-k/1.9.x/installation/installation.html installed
+* OpenShift Serverless
+* Red Hat Integration - Camel K
 * Google Translation API key in `translate/service-account-file.json`
 * Update the Telegram API key in [./resources/telegram-binding-v1.yaml](resources/telegram-binding-v1.yaml)
 
@@ -39,9 +39,9 @@ kn broker create default
 
 * Deploy the functions
 ```
-func deploy -p viewer
-func deploy -p translate
-func deploy -p responder
+kn func deploy -p viewer -i quay.io/bluesman/viewer:latest --builder=pack -v
+kn func deploy -p translate -i quay.io/bluesman/translate:latest
+kn func deploy -p responder -i quay.io/bluesman/translate:responder
 ```
 
 * Create the Telegram->Translate trigger
